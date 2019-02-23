@@ -1,20 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define ROWS 4
-#define COLS 4
+#include "queue.h"
 
-#define matrix m[ROWS][COLS]
 
+#define SIZE 16
 
 typedef struct {
-  int x;
-  int y;
+  int x; int y;
 } Pos;
 
 
 
 
+/*
 // converte matriz num array com os elementos em posicoes contiguas
 int *matrix_to_array(int m[ROWS][COLS]){
 
@@ -34,26 +33,30 @@ int *matrix_to_array(int m[ROWS][COLS]){
 // retorna posicao sem peça (peça '0')
 Pos get_empty_pos(int m[ROWS][COLS]){
   Pos pos = {-1, -1};
+  
   for(int i=0; i<ROWS; i++)
     for(int j=0; j<COLS; j++)
       if(m[i][j] == 0){
 	pos.x = i;
 	pos.y = j;
-	return pos;}  
+	return pos;}
+  
   return pos;
 }
 
+*/
 
 
-// escreve a matriz no terminal
-void print_matrix(int m[ROWS][COLS]){
-  for(int i=0; i<ROWS; i++)
-    printf("%d %d %d %d\n", m[i][0], m[i][1], m[i][2], m[i][3]);
+
+
+// escreve a configuraçao no terminal
+void print_matrix(int m[SIZE]){
+  int i = 0;
+  while(i < SIZE/4){
+    printf("%d %d %d %d\n", m[4*i + 0], m[4*i + 1], m[4*i + 2], m[4*i + 3]);
+    i++;
+  }
 }
-
-
-		   
-
 
 
 
@@ -61,22 +64,44 @@ void print_matrix(int m[ROWS][COLS]){
 
 int main(){
 
-  int solution[4][4]= {{1,2,3,4},
-		       {5,6,7,8},
-		       {9,10,11,12},
-		       {13,14,15,0}};
+  int initial[SIZE];
+  int final[SIZE];
 
-  print_matrix(solution);
+  int i;
+  // recebe linhas de config. inicial e final
+  for(i=0; i<SIZE; i++)
+    scanf("%d", &initial[i]);
 
-  Pos pos = get_empty_pos(solution);
-  printf("Posicao da peça 0 x:%d y:%d\n", pos.x, pos.y);
+  for(i=0; i<SIZE; i++)
+    scanf("%d", &final[i]);
 
-  int *a = matrix_to_array(solution);
 
-  for(int i=0; i<ROWS*COLS; i++)
-    printf("%d ", *(a+i));
-  printf("\n");
   
+
+  // colocar Arrays de inteiros na fila
+  Array a1, a2;
+  memcpy(a1.array, initial, sizeof(Array));
+  memcpy(a2.array, final, sizeof(Array));
+     
+  QUEUE *q = mk_empty_queue(1024);
+
+  enqueue(a1, q);
+  enqueue(a2, q);
   
+  Array x = dequeue(q);
+  Array y = dequeue(q);
+
+  
+  for(i=0; i<SIZE; i++)
+    printf("%d ", x.array[i]);
+
+    
+  for(i=0; i<SIZE; i++)
+    printf("%d ", y.array[i]);
+
+
   return 0;
+  
 }
+		   
+
