@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 
 #define SIZE 16
+#define SIDE 4
 
 #include "structs.h"
 #include "queue.h"
@@ -13,25 +16,16 @@
 
 int main(){
 
-  Array x;
-  Array y;
+  Array x; Array y;
 
-  int i,j;
-  for(i=0; i<SIZE; i++) scanf("%d", &x.array[i]);
-  for(i=0; i<SIZE; i++) scanf("%d", &y.array[i]);
-
-  print(x);
-
-  int **m;
-
-  m = array_to_matrix(x);
-
-  // call by reference >:(
-  Array tmp = matrix_to_array(move_up(m));
-  print(tmp);
-  print(matrix_to_array(m));
   
+  int i=0;
+  while(i<SIZE) scanf("%d", &x.array[i++]);
+  i=0;
+  while(i<SIZE) scanf("%d", &y.array[i++]);
 
+  printf("has solution? %s\n", solvability(x,y) ? "true" : "false");
+  
   return 0;
   
 }	

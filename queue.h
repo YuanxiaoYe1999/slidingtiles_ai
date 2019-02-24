@@ -17,15 +17,6 @@
 */
 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-
-#define SIZE 16
-
-
-
 typedef struct {
   int inicio, fim, nmax;
   Array *queue;

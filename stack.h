@@ -1,12 +1,10 @@
 /*--------------------------------------------------------------------\
-|                                                                     |
 |  Definição dum tipo abstracto de dados  STACK:                      |
 |    ("pilha" com elementos do tipo int)                              |
 |                                                                     |
 |   A.P.Tomás, CC211 (material para prova pratica), DCC-FCUP, 2012    |
 |   Last modified: 2012.12.28                                         |
 \--------------------------------------------------------------------*/
-
 
 /*
 
@@ -17,17 +15,6 @@
  (Representacao do tabuleiro do Jogo dos 15)
 
 */
-
-
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-
-
-#define SIZE 16
-
 
 
 typedef struct {

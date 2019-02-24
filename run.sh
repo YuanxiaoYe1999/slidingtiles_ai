@@ -1,1 +1,1 @@
-gcc -Wall -o main main.c && ./main < input
+gcc -Wall -o main main.c && ./main

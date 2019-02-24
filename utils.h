@@ -2,8 +2,8 @@
 Pos get_empty_pos(int **pmatrix){
   Pos pos = {-1, -1};
   int i, j;
-  for(i=0; i<(SIZE/4); i++)
-    for(j=0; j<(SIZE/4); j++)
+  for(i=0; i<(SIDE); i++)
+    for(j=0; j<(SIDE); j++)
       if(pmatrix[i][j] == 0){
 	pos.x = i;
 	pos.y = j;
@@ -15,37 +15,35 @@ Pos get_empty_pos(int **pmatrix){
 
 
 int **array_to_matrix(Array v){
-  int **m = (int**)malloc((SIZE/4) * sizeof(int*));
+  int **m = (int**)malloc((SIDE) * sizeof(int*));
 
   int i,j;
-  for(i=0; i<SIZE/4; i++)
-    m[i] = (int*)malloc((SIZE/4) * sizeof(int));
+  for(i=0; i<SIDE; i++)
+    m[i] = (int*)malloc((SIDE) * sizeof(int));
 
-  for(i=0; i<SIZE/4; i++)
-    for(j=0; j<SIZE/4; j++)
+  for(i=0; i<SIDE; i++)
+    for(j=0; j<SIDE; j++)
       m[i][j] = v.array[4*i + j];
   
   return m;
 }
 
 
-
 Array matrix_to_array(int **pmatrix){ 
   Array v;
 
   int i,j,k=0;
-  for(i=0;i<(SIZE/4);i++)
-    for(j=0;j<(SIZE/4);j++)
+  for(i=0;i<(SIDE);i++)
+    for(j=0;j<(SIDE);j++)
       v.array[k++] = pmatrix[i][j];
  
   return v;
 }
 
 
-
 void print(Array v){
   int i = 0;
-  while(i < SIZE/4){
+  while(i < SIDE){
     printf("%d %d %d %d\n", v.array[4*i + 0], v.array[4*i + 1],
 	   v.array[4*i + 2], v.array[4*i + 3]);
     i++;
@@ -53,3 +51,27 @@ void print(Array v){
   putchar('\n');
 }
 
+
+int count_inversions(Array v){
+  int i,j,k=0;
+
+  for(i=0; i<SIZE-1; i++)
+    for(j=i+1; j<SIZE; j++){
+      int x = v.array[i], y = v.array[j];
+      if(x==0 || y==0) continue;
+      if(x>y) k++;
+    }
+  return k;
+}
+
+
+
+bool solvability(Array a1, Array a2){
+  Pos p1 = get_empty_pos(array_to_matrix(a1));
+  Pos p2 = get_empty_pos(array_to_matrix(a2));
+
+  bool cond_i = ISEVEN(count_inversions(a1)) == ISODD(p1.x);
+  bool cond_f = ISEVEN(count_inversions(a2)) == ISODD(p2.x);
+
+  return cond_i == cond_f;
+}
