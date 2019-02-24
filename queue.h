@@ -25,10 +25,6 @@
 #define SIZE 16
 
 
-typedef struct {
-  int array[SIZE];
-} Array;
-
 
 typedef struct {
   int inicio, fim, nmax;

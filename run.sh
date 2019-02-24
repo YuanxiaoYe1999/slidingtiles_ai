@@ -1,1 +1,1 @@
-gcc -Wall -o slidingtiles slidingtiles.c && ./slidingtiles
+gcc -Wall -o main main.c && ./main < input
