@@ -1,4 +1,5 @@
 
+
 Pos get_empty_pos(int **pmatrix){
   Pos pos = {-1, -1};
   int i, j;
@@ -38,6 +39,29 @@ Array matrix_to_array(int **pmatrix){
       v.array[k++] = pmatrix[i][j];
  
   return v;
+}
+
+
+bool equals(Array x, Array y){
+  int i=0;
+  while(i<SIZE){
+    if(x.array[i] != y.array[i])
+      return false;
+    i++;
+  }
+  
+  return true;
+}
+
+
+
+bool is_visited(Array x, Array **visited, int n){
+
+  for(int i=0; i<n; i++)
+    if(equals(x, *visited[i]))
+      return true;
+        
+  return false;
 }
 
 
