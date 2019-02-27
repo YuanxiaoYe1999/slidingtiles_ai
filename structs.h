@@ -6,6 +6,8 @@ typedef struct {
   int y;
 } Pos;
 
+
 typedef struct {
   int array[SIZE];
+  int depth;
 } Array;
