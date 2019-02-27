@@ -102,7 +102,7 @@ void IDFS(Array initial, Array final){
     while(!st_is_empty(stack)){
       Array v = st_pop(stack);
       
-      visited = add_value(v, visited);
+      //visited = add_value(v, visited);
 	
       if(equals(v, final)){
 	printf("Solution found at depth %d!\n", v.depth);
