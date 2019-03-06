@@ -6,8 +6,14 @@ typedef struct {
   int y;
 } Pos;
 
+typedef enum {
+  UP, DOWN, LEFT, RIGHT,
+  NONE
+} Move;
 
 typedef struct {
   int array[SIZE];
   int depth;
+  Move move;
+  struct Array *parent;
 } Array;

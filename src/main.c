@@ -23,26 +23,33 @@ void DFS(Array initial, Array final){
   printf("Starting Depth-First Search...\n");
   PLIST visited = mk_empty_list();
   PSTACK stack = st_make_empty(MAXNODES);
+
   st_push(stack, initial);
   
   while(!st_is_empty(stack)){
-    Array v = st_pop(stack);
+    Array *v = (Array*)malloc(sizeof(Array));
+    *v = st_pop(stack);
     
-    if(equals(v, final)){ // solucao
-      printf("Solution found!\n");
-      // solution path // TODO
-      
+    if(equals(*v, final)){ // solucao
+      printf("Solution found at depth %d!\n", v->depth);
+      print_solution(v);
       return;
     }
     
-    if(!member(v, visited)){
-      visited = add_value(v, visited);
+    
+    if(!member(*v, visited)){
+      visited = add_value(*v, visited);
       
       // operadores
-      if(!member(move_up(v), visited)) st_push(stack, move_up(v));
-      if(!member(move_down(v), visited)) st_push(stack, move_down(v));
-      if(!member(move_left(v), visited)) st_push(stack, move_left(v));
-      if(!member(move_right(v), visited)) st_push(stack, move_right(v));
+      Array up = move_up(*v); up.depth=v->depth+1; up.move = UP; up.parent = v;
+      Array down = move_down(*v); down.depth=v->depth+1; down.move = DOWN; down.parent = v;
+      Array left = move_left(*v); left.depth=v->depth+1; left.move = LEFT; left.parent = v;
+      Array right = move_right(*v); right.depth=v->depth+1; right.move = RIGHT; right.parent = v;
+      
+      if(!member(up, visited)) st_push(stack, up);
+      if(!member(down, visited)) st_push(stack, down);
+      if(!member(left, visited)) st_push(stack, left);
+      if(!member(right, visited)) st_push(stack, right);
     }
     
   }
@@ -59,25 +66,31 @@ void BFS(Array initial, Array final){
   printf("Starting Breadth-First Search...\n");
   PLIST visited = mk_empty_list();
   QUEUE *queue = mk_empty_queue(MAXNODES);
+  
   enqueue(initial, queue);
   
   while(!queue_is_empty(queue)){
-    Array v = dequeue(queue);
+    Array *v = (Array*)malloc(sizeof(Array));
+    *v = dequeue(queue);
     
-    if(equals(v, final)){ // solucao
+    if(equals(*v, final)){ // solucao
       printf("Solution found!\n");
-      // solution path // TODO
+      print_solution(v);
       return;
     }
     
-    if(!member(v, visited)){
-      visited = add_value(v, visited);
+    if(!member(*v, visited)){
+      visited = add_value(*v, visited);
       
       // operadores
-      if(!member(move_up(v), visited)) enqueue(move_up(v), queue);
-      if(!member(move_down(v), visited)) enqueue(move_down(v), queue);
-      if(!member(move_left(v), visited)) enqueue(move_left(v), queue);
-      if(!member(move_right(v), visited)) enqueue(move_right(v), queue);
+      Array up = move_up(*v); up.depth=v->depth+1; up.move = UP; up.parent = v;
+      Array down = move_down(*v); down.depth=v->depth+1; down.move = DOWN; down.parent = v;
+      Array left = move_left(*v); left.depth=v->depth+1; left.move = LEFT; left.parent = v;
+      Array right = move_right(*v); right.depth=v->depth+1; right.move = RIGHT; right.parent = v;
+      if(!member(up, visited)) enqueue(up, queue);
+      if(!member(down, visited)) enqueue(down, queue);
+      if(!member(left, visited)) enqueue(left, queue);
+      if(!member(right, visited)) enqueue(right, queue);
     }
     
   }
@@ -89,13 +102,9 @@ void BFS(Array initial, Array final){
 
 
 void IDFS(Array initial, Array final){
-
   printf("Starting Iterative Depth-First Search...\n");
-
   //PLIST visited = mk_empty_list();
   PSTACK stack;
-  initial.depth = 0;
- 
     
   for(int depth=0; depth<INT_MAX; depth++){
     if(depth>MAXDEPTH) break;
@@ -104,32 +113,33 @@ void IDFS(Array initial, Array final){
     st_push(stack, initial);
     
     while(!st_is_empty(stack)){
-      Array v = st_pop(stack);
+      Array *v = (Array*)malloc(sizeof(Array));
+      *v = st_pop(stack);
            
 	
-      if(equals(v, final)){
-	printf("Solution found at depth %d!\n", v.depth);
-	// solution path // TODO
+      if(equals(*v, final)){
+	printf("Solution found at depth %d!\n", v->depth);
+	
 	return;
       }
    
 
-      if(v.depth<=depth){
+      if(v->depth <= depth){
 
 	//if(!member(v, visited))
 	//visited = add_value(v, visited);	
-	printf("idfs i: %d v.depth: %d\n", depth, v.depth);
+	//printf("idfs i: %d v.depth: %d\n", depth, v.depth);
 	  
 	// operadores
-	Array up = move_up(v); up.depth=v.depth+1;
-	Array down = move_down(v); down.depth=v.depth+1;
-	Array left = move_left(v); left.depth=v.depth+1;
-	Array right = move_right(v); right.depth=v.depth+1;
-
-	if(!equals(v, up)) st_push(stack, up);
-	if(!equals(v, down)) st_push(stack, down);
-	if(!equals(v, left)) st_push(stack, left);	
-	if(!equals(v, right)) st_push(stack, right);
+	Array up = move_up(*v); up.depth=v->depth+1; up.move = UP; up.parent = v;
+	Array down = move_down(*v); down.depth=v->depth+1; down.move = DOWN; down.parent = v;
+	Array left = move_left(*v); left.depth=v->depth+1; left.move = LEFT; left.parent = v;
+	Array right = move_right(*v); right.depth=v->depth+1; right.move = RIGHT; right.parent = v;
+	
+	if(!equals(*v, up)) st_push(stack, up);
+	if(!equals(*v, down)) st_push(stack, down);
+	if(!equals(*v, left)) st_push(stack, left);	
+	if(!equals(*v, right)) st_push(stack, right);
       }
 	
     }
@@ -160,6 +170,10 @@ int main(){
   while(i<SIZE) scanf("%d", &y.array[i++]);
 
 
+  x.depth = 0;
+  x.move = NONE;
+  x.parent = NULL;
+
   if(!solvability(x, y)){
     printf("\nThere is no solution");
     return 0;
@@ -168,7 +182,7 @@ int main(){
   // Selecionar pesquisa
   printf("\n1 - DFS\n2 - BFS\n3 - IDFS\n4 - A*\n5 - Greedy\n");
 
-  int c=1;
+  int c=3;
   //scanf("%d", &c);
   
   switch(c){

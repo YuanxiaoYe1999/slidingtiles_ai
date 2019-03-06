@@ -1,5 +1,4 @@
 
-
 Pos get_empty_pos(int **pmatrix){
   Pos pos = {-1, -1};
   int i, j;
@@ -98,4 +97,21 @@ bool solvability(Array a1, Array a2){
   bool cond_f = ISEVEN(count_inversions(a2)) == ISODD(p2.x);
 
   return cond_i == cond_f;
+}
+
+
+
+void print_solution(Array *v){
+
+  printf("(Path from final to initial config)\n");
+  while(v->parent != NULL){
+    Move m = v->move;
+    if(m == UP) printf("UP ");
+    else if(m == DOWN) printf("DOWN ");
+    else if(m == LEFT) printf("LEFT ");
+    else if(m == RIGHT) printf("RIGHT ");
+    memcpy(v, v->parent, sizeof(Array));
+  }
+  putchar('\n');
+  return;
 }
