@@ -1,0 +1,26 @@
+Para iniciar o programa basta executar ./run.sh e seguir o menu interativo (opçoes numéricas)
+
+As configurações podem ser enviadas em linha (inicial e final)
+
+Exemplo de execução:
+
+r00t@K53:~/Desktop/LCC/Inteligência Artificial/slidingtiles_ai$ ./run.sh 
+
+Initial config: 13 11 15 4 8 9 1 5 12 14 0 2 7 10 3 6
+
+Goal config: 13 11 4 5 8 0 14 15 12 1 3 2 7 9 10 6
+
+1 - DFS
+2 - BFS
+3 - IDFS
+4 - Greedy
+5 - A*
+2
+Starting Breadth-First Search...
+Solution found at depth 12!
+Time elapsed (seconds): 17.864184
+Nodes processed: 13733
+Avg. memory consumption: 1098640 bytes
+(Path from final to initial config)
+UP UP LEFT DOWN DOWN LEFT DOWN RIGHT UP RIGHT UP LEFT 
+
