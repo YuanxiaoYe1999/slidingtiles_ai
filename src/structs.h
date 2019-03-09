@@ -13,7 +13,7 @@ typedef enum {
 
 typedef struct {
   int array[SIZE];
-  int depth;
+  int depth, f;
   Move move;
   struct Array *parent;
 } Array;

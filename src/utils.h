@@ -110,7 +110,9 @@ void print_solution(Array *v){
     else if(m == DOWN) printf("DOWN ");
     else if(m == LEFT) printf("LEFT ");
     else if(m == RIGHT) printf("RIGHT ");
-    memcpy(v, v->parent, sizeof(Array));
+    else return;
+    //memcpy(v, v->parent, sizeof(Array));
+    v = v->parent;
   }
   putchar('\n');
   return;
