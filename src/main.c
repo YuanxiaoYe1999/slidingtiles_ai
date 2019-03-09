@@ -19,6 +19,7 @@
 
 
 
+
 void DFS(Array initial, Array final){
   printf("Starting Depth-First Search...\n");
   PLIST visited = mk_empty_list();
@@ -40,20 +41,17 @@ void DFS(Array initial, Array final){
     if(!member(*v, visited)){
       visited = add_value(*v, visited);
       
-      // operadores
-      Array up = move_up(*v); up.depth=v->depth+1; up.move = UP; up.parent = v;
-      Array down = move_down(*v); down.depth=v->depth+1; down.move = DOWN; down.parent = v;
-      Array left = move_left(*v); left.depth=v->depth+1; left.move = LEFT; left.parent = v;
-      Array right = move_right(*v); right.depth=v->depth+1; right.move = RIGHT; right.parent = v;
+      QUEUE *successors = gen_successors(v); 
+      while(!queue_is_empty(successors)){
+	Array x = dequeue(successors);
+	if(!member(x, visited))
+	  st_push(stack, x);
+      }
+      free_queue(successors);
       
-      if(!member(up, visited)) st_push(stack, up);
-      if(!member(down, visited)) st_push(stack, down);
-      if(!member(left, visited)) st_push(stack, left);
-      if(!member(right, visited)) st_push(stack, right);
     }
     
   }
-  
   
   printf("Solution not found\n");
   return;
@@ -62,11 +60,12 @@ void DFS(Array initial, Array final){
 
 
 
+
 void BFS(Array initial, Array final){
   printf("Starting Breadth-First Search...\n");
   PLIST visited = mk_empty_list();
   QUEUE *queue = mk_empty_queue(MAXNODES);
-  
+
   enqueue(initial, queue);
   
   while(!queue_is_empty(queue)){
@@ -81,16 +80,15 @@ void BFS(Array initial, Array final){
     
     if(!member(*v, visited)){
       visited = add_value(*v, visited);
+
+      QUEUE *successors = gen_successors(v);
+      while(!queue_is_empty(successors)){
+	Array x = dequeue(successors);
+	if(!member(x, visited))
+	  enqueue(x, queue);
+      }
+      free_queue(successors);
       
-      // operadores
-      Array up = move_up(*v); up.depth=v->depth+1; up.move = UP; up.parent = v;
-      Array down = move_down(*v); down.depth=v->depth+1; down.move = DOWN; down.parent = v;
-      Array left = move_left(*v); left.depth=v->depth+1; left.move = LEFT; left.parent = v;
-      Array right = move_right(*v); right.depth=v->depth+1; right.move = RIGHT; right.parent = v;
-      if(!member(up, visited)) enqueue(up, queue);
-      if(!member(down, visited)) enqueue(down, queue);
-      if(!member(left, visited)) enqueue(left, queue);
-      if(!member(right, visited)) enqueue(right, queue);
     }
     
   }
@@ -98,6 +96,8 @@ void BFS(Array initial, Array final){
   printf("Solution not found\n");
   return;
 }
+
+
 
 
 
@@ -115,31 +115,27 @@ void IDFS(Array initial, Array final){
     while(!st_is_empty(stack)){
       Array *v = (Array*)malloc(sizeof(Array));
       *v = st_pop(stack);
-           
-	
+           	
       if(equals(*v, final)){
 	printf("Solution found at depth %d!\n", v->depth);
-	
+	print_solution(v);
 	return;
       }
    
-
       if(v->depth <= depth){
 
 	//if(!member(v, visited))
 	//visited = add_value(v, visited);	
-	//printf("idfs i: %d v.depth: %d\n", depth, v.depth);
-	  
-	// operadores
-	Array up = move_up(*v); up.depth=v->depth+1; up.move = UP; up.parent = v;
-	Array down = move_down(*v); down.depth=v->depth+1; down.move = DOWN; down.parent = v;
-	Array left = move_left(*v); left.depth=v->depth+1; left.move = LEFT; left.parent = v;
-	Array right = move_right(*v); right.depth=v->depth+1; right.move = RIGHT; right.parent = v;
+	printf("idfs i: %d v.depth: %d\n", depth, v->depth);
+
+	QUEUE *successors = gen_successors(v); 
+	while(!queue_is_empty(successors)){
+	  Array x = dequeue(successors);
+	  // Dont check visited (?)
+	  st_push(stack, x);
+	}
+	free_queue(successors);
 	
-	if(!equals(*v, up)) st_push(stack, up);
-	if(!equals(*v, down)) st_push(stack, down);
-	if(!equals(*v, left)) st_push(stack, left);	
-	if(!equals(*v, right)) st_push(stack, right);
       }
 	
     }
@@ -160,40 +156,48 @@ void IDFS(Array initial, Array final){
 
 int main(){
   // Config inicial & final
-  Array x; Array y;
+  Array initial; Array final;
 
   int i=0;
   printf("\nInitial config: ");
-  while(i<SIZE) scanf("%d", &x.array[i++]);
+  while(i<SIZE) scanf("%d", &initial.array[i++]);
   i=0;
   printf("\nGoal config: ");
-  while(i<SIZE) scanf("%d", &y.array[i++]);
+  while(i<SIZE) scanf("%d", &final.array[i++]);
 
+  // Propriedades nó raiz
+  initial.depth = 0;
+  initial.move = NONE;
+  initial.parent = NULL;
 
-  x.depth = 0;
-  x.move = NONE;
-  x.parent = NULL;
-
-  if(!solvability(x, y)){
+  if(!solvability(initial, final)){
     printf("\nThere is no solution");
     return 0;
   }
 
   // Selecionar pesquisa
   printf("\n1 - DFS\n2 - BFS\n3 - IDFS\n4 - A*\n5 - Greedy\n");
+  int b=3;
+  //scanf("%d", &b);
 
-  int c=3;
-  //scanf("%d", &c);
+
+  if(b==4 || b==5){ 
+    // Selecionar heuristica
+    printf("\n1 - Wrong Positions\n2 - Manhattan Distance\n3 - Wrong Pos. + Manhattan Dist.\n");
+    int h;
+    //scanf("%d", &h);
+  }
   
-  switch(c){
+  
+  switch(b){
   case 1:
-    DFS(x,y);
+    DFS(initial,final);
     break;
   case 2:
-    BFS(x,y);
+    BFS(initial,final);
     break;
   case 3:
-    IDFS(x, y);
+    IDFS(initial, final);
     break;
   case 4:
     // Greedy
