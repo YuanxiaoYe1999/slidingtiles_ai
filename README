@@ -1,4 +1,4 @@
-Para iniciar o programa basta executar ./run.sh e seguir o menu interativo (opçoes numéricas)
+Para iniciar o programa basta executar ./run.sh e seguir o menu interativo (opções numéricas)
 
 As configurações podem ser enviadas em linha (inicial e final)
 
@@ -24,3 +24,5 @@ Avg. memory consumption: 1098640 bytes
 (Path from final to initial config)
 UP UP LEFT DOWN DOWN LEFT DOWN RIGHT UP RIGHT UP LEFT 
 
+====================
+Repositório no GitHub: https://github.com/YuanxiaoYe1999/slidingtiles_ai
