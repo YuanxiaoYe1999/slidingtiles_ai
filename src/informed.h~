@@ -1,8 +1,0 @@
-
-void AStar(Array initial, Array final, int heuristic){
-  printf("Starting A* Guided Search...\n");
-
-
-  printf("Solution not found\n");
-  return;
-}
