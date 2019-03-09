@@ -14,8 +14,9 @@ typedef enum {
 
 // Node Struct
 typedef struct {
-  int array[SIZE];
-  int depth, f;
-  Move move;
-  struct Array *parent;
-} Array;
+  int array[SIZE]; // 4 * 16 Bytes
+  int depth, f; // 4 * 2 Bytes
+  Move move; // enum (assume sizeof int) 4 bytes
+  struct Array *parent; // pointer in 32 bit program, 4 bytes
+} Array; // total: 80 Bytes per array instance
+

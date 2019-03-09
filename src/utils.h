@@ -116,3 +116,20 @@ void print_solution(Array *v){
   putchar('\n');
   return;
 }
+
+
+
+void benchmark(double start_time, int depth, int total_nodes, bool solution_found){
+  double finish_time = (double)(clock()-start_time) / CLOCKS_PER_SEC;
+  if(solution_found)
+    printf("Solution found at depth %d!\n", depth);
+  
+  printf("Time elapsed (seconds): %f\n", finish_time);
+  printf("Nodes processed: %d\n", total_nodes);
+  printf("Avg. memory consumption: %d bytes\n", total_nodes * STRUCT_SIZE);
+  
+  return;
+}
+
+	        
+     

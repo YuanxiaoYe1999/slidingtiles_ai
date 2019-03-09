@@ -1,7 +1,9 @@
 
 void AStar(Array initial, Array final, int heuristic){
   printf("Starting A* Guided Search...\n");
-
+  clock_t start_time = clock();
+  int total_nodes = 0;
+  
   PLIST visited = mk_empty_list();
   Heap *heap = mk_empty_heap();
   
@@ -10,13 +12,20 @@ void AStar(Array initial, Array final, int heuristic){
   
   while(!empty_heap(heap)){
     Array *v = pop(heap);
+    ++total_nodes;
 
     if(equals(*v, final)){
-      printf("Solution found!\n");
+      benchmark(start_time, v->depth, total_nodes, true);
       print_solution(v);
       return;
     }
 
+    if( (double)(clock()-start_time)/CLOCKS_PER_SEC >= EXEC_LIMIT){
+      benchmark(start_time, -1, total_nodes, false);
+      printf("Solution not found (Time Limit Exceeded)\n");
+      return;
+    }
+    
     QUEUE *successors = gen_successors(v);
 
     while(!queue_is_empty(successors)){
@@ -46,6 +55,7 @@ void AStar(Array initial, Array final, int heuristic){
   }
 
   printf("Solution not found\n");
+  benchmark(start_time, -1, total_nodes, false);
   return;
 }
 
@@ -55,7 +65,9 @@ void AStar(Array initial, Array final, int heuristic){
 
 void Greedy(Array initial, Array final, int heuristic){
   printf("Starting Greedy Guided Search...\n");
-
+  clock_t start_time = clock();
+  int total_nodes = 0;
+  
   PLIST visited = mk_empty_list();
   Heap *heap = mk_empty_heap();
   
@@ -64,10 +76,17 @@ void Greedy(Array initial, Array final, int heuristic){
   
   while(!empty_heap(heap)){
     Array *v = pop(heap);
+    ++total_nodes;
 
     if(equals(*v, final)){
-      printf("Solution found!\n");
+      benchmark(start_time, v->depth, total_nodes, true);
       print_solution(v);
+      return;
+    }
+    
+    if( (double)(clock()-start_time)/CLOCKS_PER_SEC >= EXEC_LIMIT){
+      benchmark(start_time, -1, total_nodes, false);
+      printf("Solution not found (Time Limit Exceeded)\n");
       return;
     }
 
@@ -102,5 +121,6 @@ void Greedy(Array initial, Array final, int heuristic){
   }
 
   printf("Solution not found\n");
+  benchmark(start_time, -1, total_nodes, false);
   return;
 }

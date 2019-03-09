@@ -2,7 +2,7 @@
 void DFS(Array initial, Array final){
   printf("Starting Depth-First Search...\n");
   clock_t start_time = clock();
-
+  int total_nodes = 0;
   
   PLIST visited = mk_empty_list();
   PSTACK stack = st_make_empty(MAXNODES);
@@ -12,12 +12,17 @@ void DFS(Array initial, Array final){
   while(!st_is_empty(stack)){
     Array *v = (Array*)malloc(sizeof(Array));
     *v = st_pop(stack);
+    ++total_nodes;
     
     if(equals(*v, final)){ // solucao
-      double finish_time = (double)(clock()-start_time) / CLOCKS_PER_SEC;
-      printf("Solution found at depth %d!\n", v->depth);
-      printf("Time elapsed: %f", finish_time);
+      benchmark(start_time, v->depth, total_nodes, true);
       print_solution(v);
+      return;
+    }
+
+    if( (double)(clock()-start_time)/CLOCKS_PER_SEC >= EXEC_LIMIT){
+      benchmark(start_time, -1, total_nodes, false);
+      printf("Solution not found (Time Limit Exceeded)\n");
       return;
     }
     
@@ -36,8 +41,9 @@ void DFS(Array initial, Array final){
     }
     
   }
-  
+
   printf("Solution not found\n");
+  benchmark(start_time, -1, total_nodes, false);
   return;
 }
   
@@ -47,6 +53,9 @@ void DFS(Array initial, Array final){
 
 void BFS(Array initial, Array final){
   printf("Starting Breadth-First Search...\n");
+  clock_t start_time = clock();
+  int total_nodes = 0;
+  
   PLIST visited = mk_empty_list();
   QUEUE *queue = mk_empty_queue(MAXNODES);
 
@@ -55,13 +64,21 @@ void BFS(Array initial, Array final){
   while(!queue_is_empty(queue)){
     Array *v = (Array*)malloc(sizeof(Array));
     *v = dequeue(queue);
+    ++total_nodes;
     
     if(equals(*v, final)){ // solucao
-      printf("Solution found!\n");
+      benchmark(start_time, v->depth, total_nodes, true);
       print_solution(v);
       return;
     }
-    
+
+    if( (double)(clock()-start_time)/CLOCKS_PER_SEC >= EXEC_LIMIT){
+      benchmark(start_time, -1, total_nodes, false);
+      printf("Solution not found (Time Limit Exceeded)\n");
+      return;
+    }
+
+     
     if(!member(*v, visited)){
       visited = add_value(*v, visited);
 
@@ -77,7 +94,9 @@ void BFS(Array initial, Array final){
     
   }
 
+  
   printf("Solution not found\n");
+  benchmark(start_time, -1, total_nodes, false);
   return;
 }
 
@@ -89,6 +108,8 @@ void IDFS(Array initial, Array final){
   printf("Starting Iterative Depth-First Search...\n");
   //PLIST visited = mk_empty_list();
   PSTACK stack;
+  clock_t start_time = clock();
+  int total_nodes = 0;
     
   for(int depth=0; depth<INT_MAX; depth++){
     if(depth>MAXDEPTH) break;
@@ -99,10 +120,17 @@ void IDFS(Array initial, Array final){
     while(!st_is_empty(stack)){
       Array *v = (Array*)malloc(sizeof(Array));
       *v = st_pop(stack);
+      ++total_nodes;
            	
       if(equals(*v, final)){
-	printf("Solution found at depth %d!\n", v->depth);
+	benchmark(start_time, v->depth, total_nodes, true);
 	print_solution(v);
+	return;
+      }
+
+      if( (double)(clock()-start_time)/CLOCKS_PER_SEC >= EXEC_LIMIT){
+	benchmark(start_time, -1, total_nodes, false);
+	printf("Solution not found (Time Limit Exceeded)\n");
 	return;
       }
    
@@ -131,5 +159,6 @@ void IDFS(Array initial, Array final){
   
 
   printf("Solution not found\n");
+  benchmark(start_time, -1, total_nodes, false);
   return;
 }

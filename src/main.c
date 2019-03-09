@@ -11,6 +11,8 @@
 #define SIDE 4
 #define MAXNODES pow(2,20)
 #define MAXDEPTH 20
+#define STRUCT_SIZE 80 // struct Array ~80 Bytes
+#define EXEC_LIMIT 300 // in seconds
 
 
 // Data Structures
