@@ -16,7 +16,7 @@ void DFS(Array initial, Array final){
     if(equals(*v, final)){ // solucao
       double finish_time = (double)(clock()-start_time) / CLOCKS_PER_SEC;
       printf("Solution found at depth %d!\n", v->depth);
-      printf("Time elapsed: %d", finish_time);
+      printf("Time elapsed: %f", finish_time);
       print_solution(v);
       return;
     }
