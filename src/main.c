@@ -5,6 +5,7 @@
 #include <math.h>
 #include <limits.h>
 #include <unistd.h>
+#include <time.h>
 
 #define SIZE 16
 #define SIDE 4

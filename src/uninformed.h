@@ -1,6 +1,9 @@
 
 void DFS(Array initial, Array final){
   printf("Starting Depth-First Search...\n");
+  clock_t start_time = clock();
+
+  
   PLIST visited = mk_empty_list();
   PSTACK stack = st_make_empty(MAXNODES);
 
@@ -11,7 +14,9 @@ void DFS(Array initial, Array final){
     *v = st_pop(stack);
     
     if(equals(*v, final)){ // solucao
+      double finish_time = (double)(clock()-start_time) / CLOCKS_PER_SEC;
       printf("Solution found at depth %d!\n", v->depth);
+      printf("Time elapsed: %d", finish_time);
       print_solution(v);
       return;
     }
