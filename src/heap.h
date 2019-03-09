@@ -18,6 +18,7 @@ Heap *mk_empty_heap(){
 }
 
 
+
 void push(Heap *h, int priority, Array *data){
   if (h->len + 1 >= h->size) {
     h->size = h->size ? h->size * 2 : 4;
@@ -35,6 +36,7 @@ void push(Heap *h, int priority, Array *data){
   h->nodes[i].data = data;
   h->len++;
 }
+
 
 
 Array *pop(Heap *h){

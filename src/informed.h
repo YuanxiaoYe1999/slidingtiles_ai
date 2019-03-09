@@ -25,7 +25,7 @@ void AStar(Array initial, Array final, int heuristic){
       int g = w.depth;
       int h;
       if(heuristic == 1) h = wrong_positions(w,final);
-      else if(heuristic == 2) h = 0;
+      else if(heuristic == 2) h = manhattan_distance(w, final);
       else h = wrong_positions(w, final) + manhattan_distance(w, final);
 
       int f = g + h;
@@ -79,7 +79,7 @@ void Greedy(Array initial, Array final, int heuristic){
       int g = w.depth;
       int h;
       if(heuristic == 1) h = wrong_positions(w,final);
-      else if(heuristic == 2) h = 0;
+      else if(heuristic == 2) h = manhattan_distance(w, final);
       else h = wrong_positions(w, final) + manhattan_distance(w, final);
 
       //int f = g + h;
