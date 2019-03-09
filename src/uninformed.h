@@ -105,7 +105,7 @@ void IDFS(Array initial, Array final){
 
 	//if(!member(v, visited))
 	//visited = add_value(v, visited);	
-	printf("idfs i: %d v.depth: %d\n", depth, v->depth);
+	//printf("idfs i: %d v.depth: %d\n", depth, v->depth);
 
 	QUEUE *successors = gen_successors(v); 
 	while(!queue_is_empty(successors)){

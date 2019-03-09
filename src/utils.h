@@ -1,10 +1,9 @@
 
-Pos get_empty_pos(int **pmatrix){
+Pos get_pos(int x, int **pmatrix){
   Pos pos = {-1, -1};
-  int i, j;
-  for(i=0; i<(SIDE); i++)
-    for(j=0; j<(SIDE); j++)
-      if(pmatrix[i][j] == 0){
+  for(int i=0; i<(SIDE); i++)
+    for(int j=0; j<(SIDE); j++)
+      if(pmatrix[i][j] == x){
 	pos.x = i;
 	pos.y = j;
 	return pos;
@@ -90,8 +89,8 @@ int count_inversions(Array v){
 
 
 bool solvability(Array a1, Array a2){
-  Pos p1 = get_empty_pos(array_to_matrix(a1));
-  Pos p2 = get_empty_pos(array_to_matrix(a2));
+  Pos p1 = get_pos(0, array_to_matrix(a1));
+  Pos p2 = get_pos(0, array_to_matrix(a2));
 
   bool cond_i = ISEVEN(count_inversions(a1)) == ISODD(p1.x);
   bool cond_f = ISEVEN(count_inversions(a2)) == ISODD(p2.x);

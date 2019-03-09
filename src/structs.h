@@ -11,6 +11,8 @@ typedef enum {
   NONE
 } Move;
 
+
+// Node Struct
 typedef struct {
   int array[SIZE];
   int depth, f;

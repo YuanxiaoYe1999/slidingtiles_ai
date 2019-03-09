@@ -20,7 +20,7 @@
 #include "list.h"
 #include "heap.h"
 
-// Game Mechanic
+// Game Mechanics
 #include "operators.h"
 
 // Search Algorithms
@@ -30,10 +30,8 @@
 
 
 
-
-
 int main(){
-  // Config inicial & final
+  // Receive initial & final input
   Array initial; Array final;
 
   int i=0;
@@ -43,28 +41,34 @@ int main(){
   printf("\nGoal config: ");
   while(i<SIZE) scanf("%d", &final.array[i++]);
 
-  // Propriedades nó raiz
+
+  // Root node property
   initial.depth = 0;
   initial.move = NONE;
   initial.parent = NULL;
 
+
+  // Count inversions
   if(!solvability(initial, final)){
     printf("\nThere is no solution\n.");
     return 0;
   }
 
-  // Selecionar pesquisa
-  printf("\n1 - DFS\n2 - BFS\n3 - IDFS\n4 - A*\n5 - Greedy\n");
-  int b=5;
-  //scanf("%d", &b);
+  
+  // Search Algorithm to be used
+  printf("\n1 - DFS\n2 - BFS\n3 - IDFS\n4 - Greedy\n5 - A*\n");
+  int b;
+  scanf("%d", &b);
 
+
+  
+  // Desired Heuristic
   int h;
   if(b==4 || b==5){ 
-    // Selecionar heuristica
     printf("\n1 - Wrong Positions\n2 - Manhattan Distance\n3 - Wrong Pos. + Manhattan Dist.\n");
-    int h=1;
-    //scanf("%d", &h);
+    scanf("%d", &h);
   }
+
   
   
   switch(b){
@@ -78,7 +82,7 @@ int main(){
     IDFS(initial, final);
     break;
   case 4:
-    // Greedy
+    Greedy(initial, final, h);
     break;
   case 5:
     AStar(initial, final, h);
